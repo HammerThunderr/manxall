@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+-from flask import Flask, jsonify
 import json
 import os
 import requests
@@ -22,10 +22,13 @@ print("Raw response content:", response.text)
 # Check if the request was successful
 if response.status_code == 200:
     # Parse the HTML content
+    print("aaaaaa")
+
     soup = BeautifulSoup(response.text, 'lxml')
 
     # List to hold job data
     jobs = []
+    print("bbbbbb")
 
     # Extract job listings
     for row in soup.find_all('tr')[1:]:  # Skip the header row
@@ -35,6 +38,8 @@ if response.status_code == 200:
             job_description = columns[1].get_text(strip=True)
             employer = columns[2].get_text(strip=True)
             hours = columns[3].get_text(strip=True)
+            print("ccccccccc")
+
 
             # Append job data to the list
             jobs.append({
@@ -42,7 +47,8 @@ if response.status_code == 200:
                 "Job Description": job_description,
                 "Employer": employer,
                 "Hours": hours
-            })
+            
+        else : Print("ddddd")
 
     # Convert the extracted job data to JSON format
     json_data = json.dumps(jobs, indent=4)
@@ -54,6 +60,7 @@ if response.status_code == 200:
     print("JSON data saved to job_listings.json")
 
 else:
+    
     print(f"Failed to retrieve data: {response.status_code}")
 
 app = Flask(__name__)
