@@ -88,5 +88,5 @@ def get_jobs():
     else:
         return jsonify({"error": "No job listings available."}), 404
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+    # app.run(debug=True)
