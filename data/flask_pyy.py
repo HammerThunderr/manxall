@@ -54,7 +54,7 @@ if response.status_code == 200:
 
         # Convert the extracted job data to JSON format
         json_data = json.dumps(jobs, indent=4)
-        print(json_data)  # Print or save your JSON data here
+       # print(json_data)  # Print or save your JSON data here
         print("eeeeee")  # Print or save your JSON data here
 
         # Save JSON data to a file
