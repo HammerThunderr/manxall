@@ -1,37 +1,31 @@
-name: Scrape Data and Deploy to GitHub Pages
+name: Run Flask App
 
 on:
-  schedule:
-    - cron: '0 * * * *'  # Runs every hour; adjust as needed
-  workflow_dispatch:     # Allows manual trigger of the workflow
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
-  scrape_and_update:
+  run_flask:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: Check out the repository
+    - name: Checkout code
       uses: actions/checkout@v2
-
+      
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: '3.x'  # Specify the version of Python you need
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests
+        pip install -r requirements.txt  # Ensure you have this file in your repo
 
-    - name: Run scrape script
-      run: python data/flask_pyy.py
+    - name: List installed packages
+      run: pip list  # Debugging step to confirm Flask is installed
 
-    - name: Commit and push changes
-      run: |
-        git config --local user.email "kevalsidhdhapara@gmail.com"
-        git config --local user.name "HammerThunderr"
-        git add data/latest_data.json
-        git commit -m "Update data"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Run Flask application
+      run: python data/flask_pyy.py  # Path to your Python file
