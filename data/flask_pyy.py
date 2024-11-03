@@ -11,7 +11,7 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
 }
 
-# Sending a GET request to the API
+# Sending a GET request to the APIhttps://github.com/HammerThunderr/manxall/edit/main/data/flask_pyy.py
 response = requests.get(url, headers=headers)
 
 # Print raw response content and status code
@@ -56,20 +56,19 @@ if response.status_code == 200:
         json_data = json.dumps(jobs, indent=4)
        # print(json_data)  # Print or save your JSON data here
         print("eeeeee")  # Print or save your JSON data here
-
-
         # Ensure the 'data' directory exists
         os.makedirs('data', exist_ok=True)
 
         # Save JSON data to a file
         with open('data/latest_data.json', 'w', encoding='utf-8') as json_file:
-        json_file.write(json_data)
+        json_file.write(json_data)  # This line should be indented to be inside the 'with' block
         print("JSON data saved to data/latest_data.json")
+
+
+  
         
-        # Save JSON data to a file
-        # with open('data/latest_data.json', 'w', encoding='utf-8') as json_file:
-        #     json_file.write(json_data)
-        # print("JSON data saved to job_listings.json")
+
+    
 
     except Exception as e:
         print(f"An error occurred during parsing: {e}")
