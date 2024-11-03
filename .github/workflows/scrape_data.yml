@@ -24,7 +24,7 @@ jobs:
         pip install requests
 
     - name: Run scrape script
-      run: python scrape.py
+      run: python flask_pyy.py
 
     - name: Commit and push changes
       run: |
