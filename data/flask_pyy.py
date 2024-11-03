@@ -24,14 +24,14 @@ if response.status_code == 200:
     # Parse the HTML content
     print("aaaaaa")
 
-    soup = BeautifulSoup(response.text, 'lxml')
+    bs4 = BeautifulSoup(response.text, 'lxml')
 
     # List to hold job data
     jobs = []
     print("bbbbbb")
 
     # Extract job listings
-    for row in soup.find_all('tr')[1:]:  # Skip the header row
+    for row in bs4.find_all('tr')[1:]:  # Skip the header row
         columns = row.find_all('td')
         if len(columns) >= 4:  # Ensure there are enough columns
             job_id = columns[0].get_text(strip=True)
