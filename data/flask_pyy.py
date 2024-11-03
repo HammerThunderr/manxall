@@ -49,7 +49,7 @@ if response.status_code == 200:
     print(json_data)  # Print or save your JSON data here
      # Save JSON data to a file
     # Save JSON data to a file
-    with open('job_listings.json', 'w', encoding='utf-8') as json_file:
+    with open('data/latest_data.json', 'w', encoding='utf-8') as json_file:
         json_file.write(json_data)
     print("JSON data saved to job_listings.json")
 
