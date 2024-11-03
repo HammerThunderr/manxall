@@ -55,6 +55,7 @@ if response.status_code == 200:
         # Convert the extracted job data to JSON format
         json_data = json.dumps(jobs, indent=4)
         print(json_data)  # Print or save your JSON data here
+        print("eeeeee")  # Print or save your JSON data here
 
         # Save JSON data to a file
         with open('data/latest_data.json', 'w', encoding='utf-8') as json_file:
@@ -70,6 +71,7 @@ app = Flask(__name__)
 
 @app.route('/jobs', methods=['GET'])
 def get_jobs():
+    print("ffffff")
     # Check if the JSON file exists
     if os.path.exists('data/latest_data.json'):
         with open('data/latest_data.json', 'r', encoding='utf-8') as json_file:
