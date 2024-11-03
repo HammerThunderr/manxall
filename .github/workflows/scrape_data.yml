@@ -25,14 +25,11 @@ jobs:
 
     - name: Run the Data Scraper Script
       run: |
-        python data/flask_pyy.py  # This should only scrape data and save JSON, not run Flask
+        python data/flask_pyy.py  # This should now only scrape and save JSON
 
-    - name: Commit and Push JSON Data
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add -f data/latest_data.json  # Force Git to track the file
-        git commit -m "Update job listings JSON file"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # Save the latest_data.json as an artifact
+    - name: Upload data artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: latest_data
+        path: data/latest_data.json
