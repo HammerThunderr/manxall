@@ -1,0 +1,37 @@
+name: Scrape Data and Deploy to GitHub Pages
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Runs every hour; adjust as needed
+  workflow_dispatch:     # Allows manual trigger of the workflow
+
+jobs:
+  scrape_and_update:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+
+    - name: Run scrape script
+      run: python scrape.py
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "your-email@example.com"
+        git config --local user.name "yourusername"
+        git add data/latest_data.json
+        git commit -m "Update data"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
