@@ -47,7 +47,7 @@ if response.status_code == 200:
                 "Job Description": job_description,
                 "Employer": employer,
                 "Hours": hours
-            
+            })
         else : Print("ddddd")
 
     # Convert the extracted job data to JSON format
