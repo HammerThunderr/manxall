@@ -1,35 +1,32 @@
-name: Run Flask App
+name: Run Data Scraper and Save JSON
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:  # Allows manual triggering
 
 jobs:
-  run_flask:
+  build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'  # Specify the version of Python you need
+        python-version: '3.x'
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Ensure you have this file in your repo
+        pip install -r requirements.txt
 
-    - name: List installed packages
-      run: pip list  # Debugging step to confirm Flask is installed
+    - name: Run the Data Scraper Script
+      run: |
+        python data/flask_pyy.py  # This should now only scrape and save JSON
 
-    - name: Run Flask application
-      run: python data/flask_pyy.py  # Path to your Python file
-      
     # Save the latest_data.json as an artifact
     - name: Upload data artifact
       uses: actions/upload-artifact@v3
