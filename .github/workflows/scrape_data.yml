@@ -24,7 +24,7 @@ jobs:
         pip install requests
 
     - name: Run scrape script
-      run: python /manxall/blob/main/data/flask_pyy.py
+      run: python data/flask_pyy.py
 
     - name: Commit and push changes
       run: |
