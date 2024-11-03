@@ -4,10 +4,9 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-# Replace 'API_URL' with the actual URL of the API you want to scrape
 url = "https://services.gov.im/job-search/results"  # Change this to your actual API endpoint
 
-# Custom headers, including a User-Agent
+# Custom headers
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
 }
@@ -17,50 +16,54 @@ response = requests.get(url, headers=headers)
 
 # Print raw response content and status code
 print("Response Status Code:", response.status_code)
-print("Raw response content:", response.text)
+print("Raw response content:", response.text[:500])  # Print the first 500 characters of the response
 
 # Check if the request was successful
 if response.status_code == 200:
+    print("aaaaaa")  # Debugging checkpoint
+
     # Parse the HTML content
-    print("aaaaaa")
+    try:
+        bs4 = BeautifulSoup(response.text, 'lxml')
+        print("Parsing successful.")  # Debugging checkpoint
 
-    bs4 = BeautifulSoup(response.text, 'lxml')
+        # List to hold job data
+        jobs = []
 
-    # List to hold job data
-    jobs = []
-    print("bbbbbb")
+        # Extract job listings (verify if 'tr' elements exist)
+        rows = bs4.find_all('tr')
+        print("Number of rows found:", len(rows))
 
-    # Extract job listings
-    for row in bs4.find_all('tr')[1:]:  # Skip the header row
-        columns = row.find_all('td')
-        if len(columns) >= 4:  # Ensure there are enough columns
-            job_id = columns[0].get_text(strip=True)
-            job_description = columns[1].get_text(strip=True)
-            employer = columns[2].get_text(strip=True)
-            hours = columns[3].get_text(strip=True)
-            print("ccccccccc")
+        for row in rows[1:]:  # Skip the header row
+            columns = row.find_all('td')
+            if len(columns) >= 4:  # Ensure there are enough columns
+                job_id = columns[0].get_text(strip=True)
+                job_description = columns[1].get_text(strip=True)
+                employer = columns[2].get_text(strip=True)
+                hours = columns[3].get_text(strip=True)
 
+                # Append job data to the list
+                jobs.append({
+                    "Job ID": job_id,
+                    "Job Description": job_description,
+                    "Employer": employer,
+                    "Hours": hours
+                })
+            else:
+                print("Skipping a row due to insufficient columns:", row)
 
-            # Append job data to the list
-            jobs.append({
-                "Job ID": job_id,
-                "Job Description": job_description,
-                "Employer": employer,
-                "Hours": hours
-            })
-        else : Print("ddddd")
+        # Convert the extracted job data to JSON format
+        json_data = json.dumps(jobs, indent=4)
+        print(json_data)  # Print or save your JSON data here
 
-    # Convert the extracted job data to JSON format
-    json_data = json.dumps(jobs, indent=4)
-    print(json_data)  # Print or save your JSON data here
-     # Save JSON data to a file
-    # Save JSON data to a file
-    with open('data/latest_data.json', 'w', encoding='utf-8') as json_file:
-        json_file.write(json_data)
-    print("JSON data saved to job_listings.json")
+        # Save JSON data to a file
+        with open('data/latest_data.json', 'w', encoding='utf-8') as json_file:
+            json_file.write(json_data)
+        print("JSON data saved to job_listings.json")
 
+    except Exception as e:
+        print(f"An error occurred during parsing: {e}")
 else:
-    
     print(f"Failed to retrieve data: {response.status_code}")
 
 app = Flask(__name__)
@@ -68,12 +71,12 @@ app = Flask(__name__)
 @app.route('/jobs', methods=['GET'])
 def get_jobs():
     # Check if the JSON file exists
-    if os.path.exists('job_listings.json'):
-        with open('job_listings.json', 'r', encoding='utf-8') as json_file:
+    if os.path.exists('data/latest_data.json'):
+        with open('data/latest_data.json', 'r', encoding='utf-8') as json_file:
             job_data = json.load(json_file)
-        return jsonify(job_data), 200  # Return JSON data with HTTP 200 status
+        return jsonify(job_data), 200
     else:
-        return jsonify({"error": "No job listings available."}), 404  # Return error if file doesn't exist
+        return jsonify({"error": "No job listings available."}), 404
 
 if __name__ == '__main__':
-    app.run(debug=True)  # Run the Flask app in debug mode
+    app.run(debug=True)
