@@ -57,10 +57,19 @@ if response.status_code == 200:
        # print(json_data)  # Print or save your JSON data here
         print("eeeeee")  # Print or save your JSON data here
 
+
+        # Ensure the 'data' directory exists
+        os.makedirs('data', exist_ok=True)
+
         # Save JSON data to a file
         with open('data/latest_data.json', 'w', encoding='utf-8') as json_file:
-            json_file.write(json_data)
-        print("JSON data saved to job_listings.json")
+        json_file.write(json_data)
+        print("JSON data saved to data/latest_data.json")
+        
+        # Save JSON data to a file
+        # with open('data/latest_data.json', 'w', encoding='utf-8') as json_file:
+        #     json_file.write(json_data)
+        # print("JSON data saved to job_listings.json")
 
     except Exception as e:
         print(f"An error occurred during parsing: {e}")
