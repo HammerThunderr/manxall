@@ -28,8 +28,8 @@ jobs:
 
     - name: Commit and push changes
       run: |
-        git config --local user.email "your-email@example.com"
-        git config --local user.name "yourusername"
+        git config --local user.email "kevalsidhdhapara@gmail.com"
+        git config --local user.name "HammerThunderr"
         git add data/latest_data.json
         git commit -m "Update data"
         git push
