@@ -61,7 +61,7 @@ if response.status_code == 200:
 
         # Save JSON data to a file
         with open('data/latest_data.json', 'w', encoding='utf-8') as json_file:
-        json_file.write(json_data)  # This line should be indented to be inside the 'with' block
+            json_file.write(json_data)  # This line should be indented to be inside the 'with' block
         print("JSON data saved to data/latest_data.json")
 
 
