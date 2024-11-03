@@ -32,7 +32,7 @@ jobs:
       
     # Save the latest_data.json as an artifact
     - name: Upload data artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: latest_data
         path: data/latest_data.json
